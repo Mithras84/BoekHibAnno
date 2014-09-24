@@ -16,8 +16,10 @@ import javax.persistence.Table;
 @Table (name="persoon")
 public class Persoon implements java.io.Serializable {
     
-    
-    private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6195413032646974148L;
     private int id;
     private String voorNaam;
     private String achterNaam;
