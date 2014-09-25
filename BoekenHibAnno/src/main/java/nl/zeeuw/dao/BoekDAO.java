@@ -12,16 +12,17 @@ import org.hibernate.Session;
  */
 public class BoekDAO implements IBoekDAO {
     
-    //SessionFactory sessionFactory = HibernateUtil.getSessionFactory().openSession();  
-    
-    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    Session session = HibernateUtil.getSessionFactory().openSession();
 
     /** 
      * Overridden
      * @see nl.zeeuw.dao.IBoekDAO#findBoekByISBN(long)
      */
-    public Boek findBoekByISBN(long isbn) {	
-	return (Boek) session.createSQLQuery("from Boek where isbn = :isbn").setParameter ("isbn", isbn).uniqueResult();
+    public Boek findBoekByISBN(long isbn) {
+	session.beginTransaction();
+	Boek b = (Boek) session.get(Boek.class, isbn);
+	session.getTransaction().commit();
+	return b;
     }
 
     /** 
@@ -29,11 +30,8 @@ public class BoekDAO implements IBoekDAO {
      * @see nl.zeeuw.dao.IBoekDAO#persistBoek(nl.zeeuw.model.Boek)
      */
     public void persistBoek(Boek boek) {
-	//sessionFactory.getCurrentSession().persist(boek);
 	session.beginTransaction();
-	
 	session.save(boek);
-	
 	session.getTransaction().commit();
     }
 
@@ -42,7 +40,9 @@ public class BoekDAO implements IBoekDAO {
      * @see nl.zeeuw.dao.IBoekDAO#updateBoek(nl.zeeuw.model.Boek)
      */
     public void updateBoek(Boek boek) {
-	//sessionFactory.getCurrentSession().update(boek);
+	session.beginTransaction();
+	session.saveOrUpdate(boek);
+	session.getTransaction().commit();
     }
 
     /** 
@@ -50,7 +50,9 @@ public class BoekDAO implements IBoekDAO {
      * @see nl.zeeuw.dao.IBoekDAO#deleteBoek(nl.zeeuw.model.Boek)
      */
     public void deleteBoek(Boek boek) {
-	//sessionFactory.getCurrentSession().delete(boek);
+	session.beginTransaction();
+	session.delete(boek);
+	session.getTransaction().commit();
     }
     
     

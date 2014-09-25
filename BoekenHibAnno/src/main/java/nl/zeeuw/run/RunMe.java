@@ -1,5 +1,6 @@
 package nl.zeeuw.run;
 
+import nl.zeeuw.dao.BoekDAO;
 import nl.zeeuw.model.Boek;
 import nl.zeeuw.model.Persoon;
 import nl.zeeuw.util.HibernateUtil;
@@ -19,62 +20,50 @@ public class RunMe {
      * @param args
      */
     public static void main(String[] args) {
-	testHib1();
-	testHebAnnoPersoon();
+	testHibBoekDAO();
     }
+
     
-    public static void testHib1 () {
-	Session session = HibernateUtil.getSessionFactory().openSession();
-	
-	Transaction tx = session.beginTransaction();
-	
+    public static void testHibBoekDAO () {
+	//Maak een boek
 	Boek b = new Boek ();
-	b.setIsbn(1234567891011l);
+	b.setIsbn(1234567891012l);
 	b.setAuteur("Henkie");
-	b.setTitel("Boek 1");
-	b.setPrijs(21.99);
+	b.setTitel("Henkie's Boek");
+	b.setPrijs(99.99);
 	
-	long bId = (Long) session.save(b);
+	//Maak een BoekDAO
+	BoekDAO bdao = new BoekDAO ();
 	
-	tx.commit();
-	session.close();
+	//Sla boek op in DB via DAO
+	bdao.persistBoek(b);
 	
-	System.out.println("ID is " + bId);
-	System.out.println("Trying to grab Boek1");
+	//Maak nog een boek
+	Boek b3 = new Boek ();
+	b3.setIsbn(1234567891013l);
+	b3.setAuteur("Pietje");
+	b3.setTitel("Pietje's Boek");
+	b3.setPrijs(99.99);
 	
-	Session session2 = HibernateUtil.getSessionFactory().openSession();
+	//Sla dit boek ook op in DB
+	bdao.persistBoek(b3);
 	
-	Transaction t2 = session2.beginTransaction();
-	Boek b2 = (Boek) session2.get(Boek.class, 1234567891011l);
+	//Haal de twee boeken uit DB:
+	Boek b2 = bdao.findBoekByISBN(1234567891012l);
+	Boek b4 = bdao.findBoekByISBN(1234567891013l);
 	
-	System.out.println("Titel " + b2.getTitel() + " Auteur " + b2.getAuteur());
-	t2.commit();
-	session2.close();
-    }
-    
-    public static void testHebAnnoPersoon () {
-	Session session = HibernateUtil.getSessionFactory().openSession();
+	//Print auteur, zie of deze overeenkomen
+	System.out.println(b2.getAuteur());
+	System.out.println(b4.getAuteur());
 	
-	Transaction tx = session.beginTransaction();
+	//Pietje was de auteur niet, maar zijn vader.. Update boek in DB
+	b3.setAuteur("Pietjes Vader");
+	bdao.updateBoek(b3);
 	
-	Persoon p = new Persoon ();
-	p.setVoorNaam("Henkie");
-	p.setAchterNaam("de Vries");
-	p.setTelefoonNr("123456789");
-	 
-	session.save(p);
-	System.out.println("Person Saved?");
-	tx.commit();
-	session.close();
-	 /*
-	Session s2 = HibernateUtil.getSessionFactory().openSession();
+	//Kijk of verandering is doorgevoerd:
+	b4 = bdao.findBoekByISBN(1234567891013l);	
+	System.out.println(b4.getAuteur());	
 	
-	Transaction t2 = s2.beginTransaction();
-	
-	Persoon p2 = (Persoon) s2.get
-	
-	*/
-	 
     }
 
 }
