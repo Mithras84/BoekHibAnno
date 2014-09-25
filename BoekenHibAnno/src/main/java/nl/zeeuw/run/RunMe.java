@@ -57,7 +57,8 @@ public class RunMe {
 	System.out.println(b4.getAuteur());
 	
 	//Pietje was de auteur niet, maar zijn vader.. Update boek in DB
-	b3.setAuteur("Pietjes Vader");
+	b3.setAuteur("Pietje's Vader");
+	b3.setTitel("Pietje's Vader's boek");
 	bdao.updateBoek(b3);
 	
 	//Kijk of verandering is doorgevoerd:
