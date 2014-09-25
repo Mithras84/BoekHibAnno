@@ -2,11 +2,6 @@ package nl.zeeuw.run;
 
 import nl.zeeuw.dao.BoekDAO;
 import nl.zeeuw.model.Boek;
-import nl.zeeuw.model.Persoon;
-import nl.zeeuw.util.HibernateUtil;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 
 /**

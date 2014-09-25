@@ -1,12 +1,12 @@
 package nl.zeeuw.util;
 
-import java.io.File;
-
 import nl.zeeuw.model.Boek;
 import nl.zeeuw.model.Persoon;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 
 /**
  * @author Pieter
@@ -24,12 +24,24 @@ public class HibernateUtil {
         try {
             // Create the SessionFactory from hibernate.cfg.xml   
             
+            Configuration config = new Configuration ();
+            config.configure();
+            config.addAnnotatedClass(Boek.class);
+            config.addAnnotatedClass(Persoon.class);
+            
+            ServiceRegistry registry = new StandardServiceRegistryBuilder()
+            	.applySettings(config.getProperties())
+            	.build();
+            
+            
+            return config.buildSessionFactory(registry);
+            /*
             SessionFactory sf = new AnnotationConfiguration ().configure()
         	    .addAnnotatedClass(Boek.class)
         	    .addAnnotatedClass(Persoon.class)
         	    .buildSessionFactory();
+        	   */
             //return new Configuration().configure().buildSessionFactory();
-            return sf;
         }
         catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed
