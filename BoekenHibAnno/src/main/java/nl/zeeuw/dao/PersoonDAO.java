@@ -12,15 +12,15 @@ import org.hibernate.Session;
  */
 public class PersoonDAO implements IPersoonDAO {
     
-    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    Session session = HibernateUtil.getSessionFactory().openSession();
 
     /** 
      * Overridden
      * @see nl.zeeuw.dao.IPersoonDAO#findPersonByName(java.lang.String)
      */
-    public Persoon findPersonByName(String name) {
+    public Persoon findPersonById(int id) {
 	session.beginTransaction();	
-	Persoon p = (Persoon) session.get(Persoon.class, name);	
+	Persoon p = (Persoon) session.get(Persoon.class, id);	
 	session.getTransaction().commit();
 	
 	return p;

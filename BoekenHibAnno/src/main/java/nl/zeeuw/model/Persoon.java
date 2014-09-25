@@ -1,9 +1,11 @@
 package nl.zeeuw.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,6 +26,7 @@ public class Persoon implements java.io.Serializable {
     private String voorNaam;
     private String achterNaam;
     private String telefoonNr;
+    private Boek boek;
     
     public Persoon() {}
 
@@ -33,6 +36,21 @@ public class Persoon implements java.io.Serializable {
 	return this.id;
     }
     
+    /**
+     * @return the boek
+     */
+    @OneToOne (cascade = CascadeType.ALL)
+    public Boek getBoek() {
+        return this.boek;
+    }
+
+    /**
+     * @param boek the boek to set
+     */
+    public void setBoek(Boek boek) {
+        this.boek = boek;
+    }
+
     public void setId (int id) {
 	this.id = id;
     }

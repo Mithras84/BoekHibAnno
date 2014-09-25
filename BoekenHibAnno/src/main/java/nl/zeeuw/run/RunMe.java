@@ -1,7 +1,9 @@
 package nl.zeeuw.run;
 
 import nl.zeeuw.dao.BoekDAO;
+import nl.zeeuw.dao.PersoonDAO;
 import nl.zeeuw.model.Boek;
+import nl.zeeuw.model.Persoon;
 
 
 /**
@@ -15,7 +17,8 @@ public class RunMe {
      * @param args
      */
     public static void main(String[] args) {
-	testHibBoekDAO();
+	//testHibBoekDAO();
+	testHibPersMetBoekOneToOne ();
     }
 
     
@@ -59,6 +62,30 @@ public class RunMe {
 	//Kijk of verandering is doorgevoerd:
 	b4 = bdao.findBoekByISBN(1234567891013l);	
 	System.out.println(b4.getAuteur());	
+	
+    }
+    
+    public static void testHibPersMetBoekOneToOne () {
+	Boek b = new Boek();
+	b.setIsbn(1234567891014l);
+	b.setAuteur("Henkie");
+	b.setTitel("Henkie's tweede boek");
+	b.setPrijs(9.99);
+	
+	Persoon p = new Persoon ();
+	
+	p.setVoorNaam("Wobbe");
+	p.setAchterNaam("de Vries");
+	p.setTelefoonNr("0612345678");
+	p.setBoek(b);
+	
+	PersoonDAO pdao = new PersoonDAO ();
+	pdao.persistPersoon(p);
+	
+	Persoon p2 = pdao.findPersonById(1);
+	Boek b2 = p2.getBoek();
+	
+	System.out.println(p2.getVoorNaam() + " heeft een boek van " + b2.getAuteur());
 	
     }
 

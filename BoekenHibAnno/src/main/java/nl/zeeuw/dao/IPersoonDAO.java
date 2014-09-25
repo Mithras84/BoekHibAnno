@@ -9,7 +9,7 @@ import nl.zeeuw.model.Persoon;
  */
 public interface IPersoonDAO {
     
-    public Persoon findPersonByName (String name);
+    public Persoon findPersonById (int Id);
     
     public void persistPersoon (Persoon persoon);
     
