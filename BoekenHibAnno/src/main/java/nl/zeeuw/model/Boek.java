@@ -26,7 +26,8 @@ public class Boek implements java.io.Serializable {
     private String auteur;
 
     private String titel;
-
+    
+    @Column (name = "prijs")
     private double prijs;
     
     
@@ -82,7 +83,7 @@ public class Boek implements java.io.Serializable {
     /**
      * @return the prijs
      */
-    @Column (name = "prijs")
+    
     public double getPrijs() {
         return this.prijs;
     }

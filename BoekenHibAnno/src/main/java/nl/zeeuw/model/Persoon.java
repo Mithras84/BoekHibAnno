@@ -2,6 +2,7 @@ package nl.zeeuw.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,6 +28,7 @@ public class Persoon implements java.io.Serializable {
     private String achterNaam;
     private String telefoonNr;
     private Boek boek;
+    private Adres adres;
     
     public Persoon() {}
 
@@ -42,6 +44,15 @@ public class Persoon implements java.io.Serializable {
     @OneToOne (cascade = CascadeType.ALL)
     public Boek getBoek() {
         return this.boek;
+    }
+    
+
+    /**
+     * @return the adres
+     */
+    @Embedded
+    public Adres getAdres() {
+	return adres;
     }
 
     /**
@@ -97,7 +108,15 @@ public class Persoon implements java.io.Serializable {
      */
     public void setTelefoonNr(String telefoonNr) {
         this.telefoonNr = telefoonNr;
-    } ;
+    }
+
+
+    /**
+     * @param adres the adres to set
+     */
+    public void setAdres(Adres adres) {
+	this.adres = adres;
+    }
 
     
 

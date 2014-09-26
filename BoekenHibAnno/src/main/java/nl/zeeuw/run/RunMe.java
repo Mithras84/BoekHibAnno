@@ -2,6 +2,7 @@ package nl.zeeuw.run;
 
 import nl.zeeuw.dao.BoekDAO;
 import nl.zeeuw.dao.PersoonDAO;
+import nl.zeeuw.model.Adres;
 import nl.zeeuw.model.Boek;
 import nl.zeeuw.model.Persoon;
 
@@ -18,7 +19,8 @@ public class RunMe {
      */
     public static void main(String[] args) {
 	//testHibBoekDAO();
-	testHibPersMetBoekOneToOne ();
+	//testHibPersMetBoekOneToOne ();
+	testHibPersoonMetEmbedAdres();
     }
 
     
@@ -70,7 +72,16 @@ public class RunMe {
 	b.setIsbn(1234567891014l);
 	b.setAuteur("Henkie");
 	b.setTitel("Henkie's tweede boek");
-	b.setPrijs(9.99);
+	b.setPrijs(19.99);
+	
+	Boek b2 = new Boek();
+	b2.setIsbn(1234567891015l);
+	b2.setAuteur("Henkie");
+	b2.setTitel("Henkie's derde boek");
+	b2.setPrijs(29.99);
+	
+	BoekDAO bd = new BoekDAO ();
+	bd.persistBoek(b2);
 	
 	Persoon p = new Persoon ();
 	
@@ -83,10 +94,31 @@ public class RunMe {
 	pdao.persistPersoon(p);
 	
 	Persoon p2 = pdao.findPersonById(1);
-	Boek b2 = p2.getBoek();
+	Boek b3 = p2.getBoek();
 	
-	System.out.println(p2.getVoorNaam() + " heeft een boek van " + b2.getAuteur());
+	System.out.println(p2.getVoorNaam() + " heeft een boek van " + b3.getAuteur());
 	
+    }
+    
+    public static void testHibPersoonMetEmbedAdres () {
+	Persoon p = new Persoon ();
+	p.setVoorNaam("Teddy");
+	p.setAchterNaam("Beer");
+	p.setTelefoonNr("0644556677");
+	
+	p.setBoek(null);
+	
+	Adres a = new Adres ();
+	a.setStraatNaam("Berenbos");
+	a.setHuisNummer(6);
+	a.setPostCode("9999AA");
+	p.setAdres(a);
+	
+	PersoonDAO pd = new PersoonDAO ();
+	pd.persistPersoon(p);
+	
+	Persoon p2 = pd.findPersonById(1);
+	System.out.println(p2.getVoorNaam() + " " + p2.getAchterNaam() + "'s Postcode is " + p2.getAdres().getPostCode());
     }
 
 }
