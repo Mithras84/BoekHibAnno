@@ -1,10 +1,9 @@
 package nl.zeeuw.run;
 
+import java.util.List;
+
 import nl.zeeuw.dao.BoekDAO;
-import nl.zeeuw.dao.PersoonDAO;
-import nl.zeeuw.model.Adres;
 import nl.zeeuw.model.Boek;
-import nl.zeeuw.model.Persoon;
 
 
 /**
@@ -20,7 +19,18 @@ public class RunMe {
     public static void main(String[] args) {
 	//testHibBoekDAO();
 	//testHibPersMetBoekOneToOne ();
-	testHibPersoonMetEmbedAdres();
+	//testHibPersoonMetEmbedAdres();
+	testRandomObjects () ;
+    }
+    
+    public static void testRandomObjects () {
+	List<Boek> boekenLijst = CreateRandomObjects.getRandomBoekenLijst(20);
+	BoekDAO bd = new BoekDAO ();
+
+	for (Boek b : boekenLijst) {
+	    bd.persistBoek(b);
+	}
+	
     }
 
     
@@ -28,7 +38,7 @@ public class RunMe {
 	//Maak een boek
 	Boek b = new Boek ();
 	b.setIsbn(1234567891012l);
-	b.setAuteur("Henkie");
+	//b.setAuteur("Henkie");
 	b.setTitel("Henkie's Boek");
 	b.setPrijs(99.99);
 	
@@ -41,7 +51,7 @@ public class RunMe {
 	//Maak nog een boek
 	Boek b3 = new Boek ();
 	b3.setIsbn(1234567891013l);
-	b3.setAuteur("Pietje");
+	//b3.setAuteur("Pietje");
 	b3.setTitel("Pietje's Boek");
 	b3.setPrijs(99.99);
 	
@@ -57,7 +67,7 @@ public class RunMe {
 	System.out.println(b4.getAuteur());
 	
 	//Pietje was de auteur niet, maar zijn vader.. Update boek in DB
-	b3.setAuteur("Pietje's Vader");
+	//b3.setAuteur("Pietje's Vader");
 	b3.setTitel("Pietje's Vader's boek");
 	bdao.updateBoek(b3);
 	
@@ -67,6 +77,7 @@ public class RunMe {
 	
     }
     
+    /*
     public static void testHibPersMetBoekOneToOne () {
 	Boek b = new Boek();
 	b.setIsbn(1234567891014l);
@@ -99,6 +110,7 @@ public class RunMe {
 	System.out.println(p2.getVoorNaam() + " heeft een boek van " + b3.getAuteur());
 	
     }
+
     
     public static void testHibPersoonMetEmbedAdres () {
 	Persoon p = new Persoon ();
@@ -120,5 +132,5 @@ public class RunMe {
 	Persoon p2 = pd.findPersonById(1);
 	System.out.println(p2.getVoorNaam() + " " + p2.getAchterNaam() + "'s Postcode is " + p2.getAdres().getPostCode());
     }
-
+    */
 }

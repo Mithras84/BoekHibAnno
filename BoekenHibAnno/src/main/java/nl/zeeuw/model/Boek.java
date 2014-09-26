@@ -1,8 +1,10 @@
 package nl.zeeuw.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -23,7 +25,7 @@ public class Boek implements java.io.Serializable {
 
     private long isbn;
 
-    private String auteur;
+    private Persoon auteur;
 
     private String titel;
     
@@ -53,15 +55,15 @@ public class Boek implements java.io.Serializable {
     /**
      * @return the auteur
      */
-    @Column (name = "auteur")
-    public String getAuteur() {
+    @OneToOne(cascade = CascadeType.ALL)
+    public Persoon getAuteur() {
         return this.auteur;
     }
 
     /**
      * @param auteur the auteur to set
      */
-    public void setAuteur(String auteur) {
+    public void setAuteur(Persoon auteur) {
         this.auteur = auteur;
     }
 

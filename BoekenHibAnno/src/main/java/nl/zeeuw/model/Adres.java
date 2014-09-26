@@ -14,6 +14,7 @@ import javax.persistence.Embeddable;
  */
 @Embeddable 
 public class Adres {
+    private String woonPlaats;
     private String straatNaam;
     private int huisNummer;
     private String postCode;
@@ -65,6 +66,21 @@ public class Adres {
      */
     public void setPostCode(String postCode) {
         this.postCode = postCode;
+    }
+
+    /**
+     * @return the woonPlaats
+     */
+    @Column (name = "woonplaats")
+    public String getWoonPlaats() {
+	return woonPlaats;
+    }
+
+    /**
+     * @param woonPlaats the woonPlaats to set
+     */
+    public void setWoonPlaats(String woonPlaats) {
+	this.woonPlaats = woonPlaats;
     }
     
     
